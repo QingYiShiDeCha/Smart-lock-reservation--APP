@@ -22,22 +22,77 @@
     <view class="px-4 text-center">
       <text class="text-lg font-medium">客服</text>
     </view>
-    <view class="tab-view flex gap-30rpx">
+    <view class="tab-view mt-60rpx flex gap-30rpx text-36rpx">
       <view @click="handleSwitchTag(1)">电话联系</view>
       <view @click="handleSwitchTag(2)">微信联系</view>
     </view>
+    <template v-if="activeTag === 1">
+      <view class="flex flex-col box-border" v-for="(item, index) in phoneInfo" :key="index">
+        <view class="bg-white rounded-lg mt-30rpx flex flex-col p-4 gap-6rpx">
+          <view class="flex justify-between">
+            <view>{{ item.name }}</view>
+            <view class="text-24rpx px-3 rounded-lg bg-[#edfef6] text-center leading-normal">
+              值班中
+            </view>
+          </view>
+          <view class="b-1 b-solid border-#f5f5f5"></view>
+          <view class="flex justify-between">
+            <view>{{ item.phone }}</view>
+            <view class="rounded-full bg-green p-8rpx">
+              <view class="i-carbon:phone-filled bg-white text-20rpx px-8rpx"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </template>
+    <template v-else>
+      <view class="mt-30rpx bg-white rounded-lg p-4 flex justify-between">
+        <view>西江船闸调度中心</view>
+        <view class="flex gap-10rpx items-center">
+          <view class="rounded-full bg-green p-3rpx flex items-center">
+            <view class="i-carbon:logo-wechat bg-white"></view>
+          </view>
+          <view class="text-green">联系客服</view>
+        </view>
+      </view>
+    </template>
   </view>
 </template>
 
 <script lang="ts" setup>
 const { safeAreaInsets } = uni.getSystemInfoSync()
+const activeTag = ref(1)
 
 function handleSwitchTag(val: number) {
-  uni.showToast({
-    title: `切换到第${val}个标签`,
-    icon: 'none',
-  })
+  activeTag.value = val
 }
+const phoneInfo = ref([
+  {
+    name: '加售后微信留言',
+    phone: '19541255874',
+    isWork: true,
+  },
+  {
+    name: '加售后微信留言',
+    phone: '18452444785',
+    isWork: true,
+  },
+  {
+    name: '西江船闸调度中心',
+    phone: '9336',
+    isWork: true,
+  },
+  {
+    name: '西江船闸调度中心',
+    phone: '9336',
+    isWork: true,
+  },
+  {
+    name: '西江船闸调度中心',
+    phone: '9336',
+    isWork: true,
+  },
+])
 </script>
 
 <style>
