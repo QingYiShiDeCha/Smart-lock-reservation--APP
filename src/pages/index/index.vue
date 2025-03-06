@@ -18,12 +18,20 @@
     <!-- 新增固定背景层 -->
     <view class="fixed-bg"></view>
     <!-- 顶部标题 -->
-    <view class="px-4 text-center">
-      <text class="text-lg font-medium">首页</text>
-    </view>
+    <wd-navbar
+      fixed
+      title="首页"
+      safeAreaInsetTop
+      custom-style="background-color: #c6ddfe !important;"
+      :bordered="false"
+    />
 
     <!-- 轮播通知 -->
-    <swiper class="h-30 mx-4 my-4 rounded-lg overflow-hidden relative bg-red" circular autoplay>
+    <swiper
+      class="h-30 mx-4 mt-11 mb-3 rounded-lg overflow-hidden relative bg-red"
+      circular
+      autoplay
+    >
       <swiper-item v-for="(item, index) in notices" :key="index">
         <view class="w-full h-full">
           <image class="w-full h-full" :src="item.image" mode="aspectFit" />
@@ -64,6 +72,7 @@
             class="flex flex-col items-center gap-2"
             v-for="(service, index) in services"
             :key="index"
+            @click="handleServiceClick(service.name, index)"
           >
             <view
               class="w-12 h-12 rounded-full flex items-center justify-center text-2xl text-white"
@@ -163,6 +172,18 @@ const lockInfo = ref([
     ],
   },
 ])
+
+function handleServiceClick(name: string, index: number) {
+  uni.showToast({
+    title: `点击了${name}`,
+    icon: 'none',
+  })
+  if (index === 0) {
+    uni.navigateTo({
+      url: '/pages/appointment/index',
+    })
+  }
+}
 </script>
 
 <style>
