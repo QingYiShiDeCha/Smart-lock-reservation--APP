@@ -15,25 +15,25 @@
   },
   "tabBar": {
     "color": "#999999",
-    "selectedColor": "#018d71",
+    "selectedColor": "#1296db",
     "backgroundColor": "#F8F8F8",
-    "borderStyle": "black",
-    "height": "50px",
+    "borderStyle": "white",
+    "height": "55px",
     "fontSize": "10px",
     "iconWidth": "24px",
     "spacing": "3px",
     "list": [
       {
         "iconPath": "static/tabbar/home.png",
-        "selectedIconPath": "static/tabbar/homeHL.png",
+        "selectedIconPath": "static/tabbar/home_active.png",
         "pagePath": "pages/index/index",
         "text": "首页"
       },
       {
-        "iconPath": "static/tabbar/example.png",
-        "selectedIconPath": "static/tabbar/exampleHL.png",
-        "pagePath": "pages/about/about",
-        "text": "关于"
+        "iconPath": "static/tabbar/user.png",
+        "selectedIconPath": "static/tabbar/user_active.png",
+        "pagePath": "pages/mine/index",
+        "text": "我的"
       }
     ]
   },
@@ -47,10 +47,12 @@
       }
     },
     {
-      "path": "pages/about/about",
+      "path": "pages/mine/index",
       "type": "page",
+      "layout": "default",
       "style": {
-        "navigationBarTitleText": "关于"
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "首页"
       }
     }
   ],

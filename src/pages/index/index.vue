@@ -15,12 +15,7 @@
     </view>
 
     <!-- 轮播通知 -->
-    <swiper
-      class="h-30 mx-4 my-4 rounded-lg overflow-hidden relative bg-red"
-      circular
-      autoplay
-      interval="3000"
-    >
+    <swiper class="h-30 mx-4 my-4 rounded-lg overflow-hidden relative bg-red" circular autoplay>
       <swiper-item v-for="(item, index) in notices" :key="index">
         <view class="w-full h-full">
           <image class="w-full h-full" :src="item.image" mode="aspectFit" />
@@ -37,67 +32,67 @@
     </swiper>
 
     <!-- 通知栏 -->
-    <view class="px-4">
-      <wd-notice-bar
-        type="success"
-        text="用户注册"
-        :scrollable="false"
-        background-color="#c4dcfe64"
-      >
+    <view class="px-4 mb-16rpx">
+      <wd-notice-bar text="用户注册" :scrollable="false" background-color="#c4dcfe64">
         <template #prefix>
-          <view class="i-carbon:notification text-[#608ee9]" />
-          <view class="italic text-[#608ee9] pl-4rpx font-bold">通知</view>
+          <view class="flex gap-4rpx">
+            <view class="i-carbon:notification text-[#608ee9]" />
+            <view class="italic text-[#608ee9] pl-4rpx font-bold">通知</view>
+          </view>
         </template>
         <template #default>
-          <view class="pl-16rpx">用户注册</view>
+          <view class="pl-16rpx text-#333 font-500">用户注册</view>
         </template>
       </wd-notice-bar>
     </view>
 
     <!-- 常用服务网格 -->
 
-    <view class="mx-4 bg-white rounded-lg p-4 grid grid-cols-4 gap-4">
-      <view>
-        <view class="mx-4 mt-4 text-base font-medium text-[#333]">常用服务</view>
-        <view
-          class="flex flex-col items-center gap-2"
-          v-for="(service, index) in services"
-          :key="index"
-        >
+    <view class="mx-4 bg-white rounded-lg">
+      <view class="flex flex-col gap-2">
+        <view class="mx-4 mt-16rpx text-base font-medium text-[#333]">常用服务</view>
+        <view class="grid grid-cols-4 gap-4 pb-4 pt-4rpx">
           <view
-            class="w-12 h-12 rounded-full flex items-center justify-center text-2xl text-white"
-            :style="{ backgroundColor: service.color }"
+            class="flex flex-col items-center gap-2"
+            v-for="(service, index) in services"
+            :key="index"
           >
-            <text class="iconfont">{{ service.icon }}</text>
+            <view
+              class="w-12 h-12 rounded-full flex items-center justify-center text-2xl text-white"
+              :style="{ backgroundColor: service.color }"
+            >
+              <text class="iconfont">{{ service.icon }}</text>
+            </view>
+            <text class="text-xs text-[#333]">{{ service.name }}</text>
           </view>
-          <text class="text-xs text-[#333]">{{ service.name }}</text>
         </view>
       </view>
     </view>
 
-    <!-- 船闸待闸信息 -->
-    <view class="mx-4 mt-4 text-base font-medium text-[#333]">船闸待闸信息</view>
-    <view class="mx-4 bg-white rounded-lg overflow-hidden">
+    <view class="mx-4 pb-4 mt-16rpx pt-8rpx bg-white rounded-lg overflow-hidden">
+      <!-- 船闸待闸信息 -->
+      <view class="mx-4 mt-16rpx mb-16rpx text-base font-medium text-[#333]">船闸待闸信息</view>
       <view
-        class="p-4 border-b border-[#f5f5f5] last:border-none"
-        v-for="(lock, index) in lockInfo"
+        class="h-160rpx mx-4 bg-[#f6f9ff] mt-16rpx rounded-lg overflow-hidden flex items-center px-4 gap-6"
+        v-for="(item, index) in lockInfo"
         :key="index"
       >
-        <view class="flex items-center gap-1 mb-2">
-          <text v-if="lock.isHot" class="text-base">🔥</text>
-          <text class="text-base font-medium">{{ lock.name }}</text>
+        <!-- 修改后的名称部分 -->
+        <view class="flex items-center justify-center w-140rpx">
+          <text v-if="item.isHot">🔥</text>
+          <text>{{ item.name }}</text>
         </view>
-        <view class="space-y-1">
-          <view
-            class="flex items-center gap-1 text-sm text-[#666]"
-            v-for="(direction, dIndex) in lock.directions"
-            :key="dIndex"
-          >
-            <text class="text-xl leading-none">•</text>
-            <text class="w-8">{{ direction.type }}</text>
-            <text class="text-[#333]">
-              待闸:{{ direction.waiting }} 预报到:{{ direction.reported }}
-            </text>
+        <view class="flex flex-1 flex-col gap-4rpx">
+          <view class="flex items-center justify-between">
+            <view class="text-14px leading-none font-bold w-80rpx">• 上行</view>
+            <view class="text-12px w-120rpx">待闸: {{ item.directions[0].waiting }}</view>
+            <view class="text-12px w-150rpx">预报到: {{ item.directions[0].reported }}</view>
+          </view>
+          <view class="b-1 b-solid border-#f5f5f5"></view>
+          <view class="flex items-center justify-between">
+            <view class="text-14px leading-none font-bold w-80rpx">• 下行</view>
+            <view class="text-12px w-120rpx">待闸: {{ item.directions[1].waiting }}</view>
+            <view class="text-12px w-150rpx">预报到: {{ item.directions[1].reported }}</view>
           </view>
         </view>
       </view>
@@ -106,16 +101,13 @@
 </template>
 
 <script lang="ts" setup>
-import { TestEnum } from '@/typings'
-import PLATFORM from '@/utils/platform'
-
 defineOptions({
   name: 'Home',
 })
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
-
+console.log(safeAreaInsets)
 const currentSwiperIndex = ref(0)
 
 // 通知数据
@@ -157,15 +149,25 @@ const lockInfo = ref([
   {
     name: '大藤峡',
     isHot: true,
-    directions: [{ type: '上行', waiting: 595, reported: 730 }],
+    directions: [
+      { type: '上行', waiting: 595, reported: 730 },
+      { type: '下行', waiting: 172, reported: 609 },
+    ],
   },
 ])
 </script>
 
 <style>
 page {
-  background: linear-gradient(180deg, #c4dcfe 0%, #f5f5f5 45%);
+  background: linear-gradient(180deg, #c4dcfe 0%, #f5f5f5 45%, #f5f5f5 100%);
 }
+/* #ifdef MP-WEIXIN */
+page {
+  height: 100%;
+  overflow: scroll;
+  background: linear-gradient(180deg, #c4dcfe 0%, #f5f5f5 45%, #f5f5f5 100%);
+}
+/* #endif */
 </style>
 
 <style lang="scss"></style>
