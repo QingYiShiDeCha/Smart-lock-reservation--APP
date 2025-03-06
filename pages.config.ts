@@ -33,14 +33,14 @@ export default defineUniPages({
         text: '首页',
       },
       {
-        iconPath: 'static/tabbar/user.png',
-        selectedIconPath: 'static/tabbar/user_active.png',
+        iconPath: 'static/tabbar/phone.png',
+        selectedIconPath: 'static/tabbar/phone_active.png',
         pagePath: 'pages/cell-center/index',
         text: '客服',
       },
       {
-        iconPath: 'static/tabbar/phone.png',
-        selectedIconPath: 'static/tabbar/phone_active.png',
+        iconPath: 'static/tabbar/user.png',
+        selectedIconPath: 'static/tabbar/user_active.png',
         pagePath: 'pages/mine/index',
         text: '我的',
       },

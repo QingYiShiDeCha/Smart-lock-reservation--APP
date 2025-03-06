@@ -5,6 +5,7 @@
 
 interface NavigateToOptions {
   url: "/pages/index/index" |
+       "/pages/appointment/index" |
        "/pages/cell-center/index" |
        "/pages/mine/index";
 }
