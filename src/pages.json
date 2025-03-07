@@ -78,6 +78,15 @@
         "navigationStyle": "custom",
         "navigationBarTitleText": "首页"
       }
+    },
+    {
+      "path": "pages/report-info/index",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "报闸信息"
+      }
     }
   ],
   "subPackages": []
