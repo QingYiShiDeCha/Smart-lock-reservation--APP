@@ -94,22 +94,38 @@
         v-for="(item, index) in lockInfo"
         :key="index"
       >
-        <!-- 修改后的名称部分 -->
-        <view class="flex items-center justify-center w-140rpx">
+        <!-- 船闸名称部分 - 使用flex布局 -->
+        <view class="flex items-center justify-center flex-shrink-0 w-17 text-center">
           <text v-if="item.isHot">🔥</text>
           <text>{{ item.name }}</text>
         </view>
-        <view class="flex flex-1 flex-col gap-4rpx">
-          <view class="flex items-center justify-between">
-            <view class="text-14px leading-none font-bold w-80rpx">• 上行</view>
-            <view class="text-12px w-120rpx">待闸: {{ item.directions[0].waiting }}</view>
-            <view class="text-12px w-150rpx">预报到: {{ item.directions[0].reported }}</view>
+        <view class="flex flex-col gap-8rpx">
+          <view class="flex items-center">
+            <view class="text-14px leading-none font-bold flex-shrink-0 mr-2 w-13">• 上行</view>
+            <view class="flex-1 flex justify-between">
+              <view class="flex items-center w-1/2">
+                <text class="text-12px whitespace-nowrap">待闸:</text>
+                <text class="text-12px ml-2rpx">{{ item.directions[0].waiting }}</text>
+              </view>
+              <view class="flex items-center w-1/2 ml-12rpx">
+                <text class="text-12px whitespace-nowrap">预报到:</text>
+                <text class="text-12px ml-2rpx">{{ item.directions[0].reported }}</text>
+              </view>
+            </view>
           </view>
           <view class="b-1 b-solid border-#f5f5f5"></view>
-          <view class="flex items-center justify-between">
-            <view class="text-14px leading-none font-bold w-80rpx">• 下行</view>
-            <view class="text-12px w-120rpx">待闸: {{ item.directions[1].waiting }}</view>
-            <view class="text-12px w-150rpx">预报到: {{ item.directions[1].reported }}</view>
+          <view class="flex items-center">
+            <view class="text-14px leading-none font-bold flex-shrink-0 mr-2 w-13">• 下行</view>
+            <view class="flex-1 flex justify-between">
+              <view class="flex items-center w-1/2">
+                <text class="text-12px whitespace-nowrap">待闸:</text>
+                <text class="text-12px ml-auto">{{ item.directions[1].waiting }}</text>
+              </view>
+              <view class="flex items-center w-1/2 ml-12rpx">
+                <text class="text-12px whitespace-nowrap">预报到:</text>
+                <text class="text-12px ml-auto">{{ item.directions[1].reported }}</text>
+              </view>
+            </view>
           </view>
         </view>
       </view>
