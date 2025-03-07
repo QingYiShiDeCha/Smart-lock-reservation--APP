@@ -23,6 +23,18 @@ declare global {
     openid?: string
     token?: string
   }
+
+  // 定义Tab项的接口
+  type TabItem = {
+    title: string
+    name: string | number
+  }
+
+  // 定义提供给子组件的上下文接口
+  type TabsContext = {
+    activeIndex: Ref<number>
+    registerTab: (tabData: TabItem) => number
+  }
 }
 
 export {} // 防止模块污染
