@@ -115,11 +115,54 @@
 
       <custom-tab-item title="报闸进度">
         <view class="mx-4 bg-white rounded-lg p-4">
-          <wd-steps :active="currentStep" align-center>
-            <wd-step title="进入锚地" description="等待进入锚地" />
-            <wd-step title="当前船闸" description="等待进入船闸" />
-            <wd-step title="人工审核" description="等待人工审核" />
-            <wd-step title="进闸" description="等待进闸" />
+          <wd-steps :active="currentStep" vertical class="progress-steps" dot>
+            <wd-step status="finished">
+              <template #title>
+                <view class="step-card completed">
+                  <view class="flex justify-between items-center">
+                    <text class="font-medium">进入锚地</text>
+                    <text class="status-text completed">已完成</text>
+                  </view>
+                  <view class="text-sm text-gray-500 mt-1">已抛锚</view>
+                </view>
+              </template>
+            </wd-step>
+
+            <wd-step>
+              <template #title>
+                <view class="step-card active">
+                  <view class="flex justify-between items-center">
+                    <text class="font-medium">当前船闸</text>
+                    <text class="status-text active">进行中</text>
+                  </view>
+                  <view class="text-sm text-gray-500 mt-1">等待进入船闸</view>
+                </view>
+              </template>
+            </wd-step>
+
+            <wd-step>
+              <template #title>
+                <view class="step-card">
+                  <view class="flex justify-between items-center">
+                    <text class="font-medium">人工审核</text>
+                    <text class="status-text">未开始</text>
+                  </view>
+                  <view class="text-sm text-gray-500 mt-1">等待人工审核</view>
+                </view>
+              </template>
+            </wd-step>
+
+            <wd-step>
+              <template #title>
+                <view class="step-card">
+                  <view class="flex justify-between items-center">
+                    <text class="font-medium">调度</text>
+                    <text class="status-text">未开始</text>
+                  </view>
+                  <view class="text-sm text-gray-500 mt-1">等待调度安排</view>
+                </view>
+              </template>
+            </wd-step>
           </wd-steps>
         </view>
       </custom-tab-item>
@@ -185,5 +228,36 @@ function handleBack() {
   width: 100%;
   height: 100vh;
   background: linear-gradient(180deg, #c4dcfe 0%, #f5f5f5 45%);
+}
+</style>
+
+<style lang="scss" scoped>
+.progress-steps {
+  :deep(.step-card) {
+    padding: 12px;
+    margin-bottom: 16px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+    &.completed {
+      border-left: 4px solid #4caf50;
+      .status-text.completed {
+        color: #4caf50;
+      }
+    }
+
+    &.active {
+      border-left: 4px solid #2196f3;
+      .status-text.active {
+        color: #2196f3;
+      }
+    }
+
+    .status-text {
+      font-size: 14px;
+      color: #9e9e9e;
+    }
+  }
 }
 </style>
