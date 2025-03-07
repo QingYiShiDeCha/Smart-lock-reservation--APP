@@ -98,19 +98,6 @@
               <wd-picker label="起始港" :columns="shoplocks.map((item) => item.name)" />
               <wd-picker label="目的港" :columns="shoplocks.map((item) => item.name)" />
 
-              <!-- <wd-select
-                  label="起始港"
-                  v-model="formData.startPort"
-                  :options="portOptions"
-                  placeholder="请选择"
-                />
-                <wd-select
-                  label="目的港"
-                  v-model="formData.endPort"
-                  :options="portOptions"
-                  placeholder="请选择"
-                /> -->
-
               <!-- 包装方式（单选框组） -->
               <wd-picker label="包装方式" :columns="['散装', '集装箱', '托盘']" />
 
