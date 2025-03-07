@@ -182,6 +182,10 @@ function handleServiceClick(name: string, index: number) {
     uni.navigateTo({
       url: '/pages/appointment/index',
     })
+  } else if (index === 1) {
+    uni.navigateTo({
+      url: '/pages/report-info/index',
+    })
   }
 }
 </script>
