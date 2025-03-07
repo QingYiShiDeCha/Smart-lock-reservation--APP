@@ -11,12 +11,16 @@
 <template>
   <view class="min-h-screen" :style="{ marginTop: safeAreaInsets?.top + 'px' }">
     <!-- 顶部标题 -->
-    <view class="mx-px text-center">
-      <text class="text-lg font-medium">我的</text>
-    </view>
+    <wd-navbar
+      fixed
+      title="客服"
+      safeAreaInsetTop
+      custom-style="background-color: #c6ddfe !important;"
+      :bordered="false"
+    />
 
     <!-- 用户信息区域 -->
-    <view class="flex items-center px-5 mt-6">
+    <view class="flex items-center px-5 mt-12">
       <wd-img class="shadow-md" :width="80" :height="80" round :src="userAvatar" />
       <view class="ml-4">
         <view class="text-lg font-medium fw-600">清茶</view>
