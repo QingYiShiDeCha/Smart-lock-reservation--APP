@@ -2,16 +2,6 @@ import { onBeforeUnmount, onMounted } from 'vue'
 // useMqtt.js
 import { mqttServer } from '@/utils/mqtt'
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-/**
- * @param {{[topic: string]: (payload: object | string) => void}} [mqttHooks] - An object containing dynamic topics and their associated handler functions.
- * @returns {{
- *   subscribe: (topic: string, callback: Function) => void,
- *   unsubscribe: (topic: string) => void,
- *   publish: (topic: string, payload: any, qos?: number) => void
- * }} - Returns an object containing `subscribe`, `unsubscribe`, and `publish` functions.
- */
 export function useMqtt<T>(mqttHooks: Record<string, (payload: T) => void>) {
   // 主题Map
   const topicMap = new Map()
