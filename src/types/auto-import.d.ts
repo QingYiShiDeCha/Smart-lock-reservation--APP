@@ -79,6 +79,7 @@ declare global {
   const useCssVars: typeof import('vue')['useCssVars']
   const useId: typeof import('vue')['useId']
   const useModel: typeof import('vue')['useModel']
+  const useMqtt: typeof import('../hooks/useMqtt')['useMqtt']
   const useNavbarWeixin: (typeof import('../hooks/useNavbarWeixin'))['default']
   const useRequest: typeof import('../hooks/useRequest')['default']
   const useSlots: typeof import('vue')['useSlots']
@@ -175,6 +176,7 @@ declare module 'vue' {
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
+    readonly useMqtt: UnwrapRef<typeof import('../hooks/useMqtt')['useMqtt']>
     readonly useRequest: UnwrapRef<typeof import('../hooks/useRequest')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
