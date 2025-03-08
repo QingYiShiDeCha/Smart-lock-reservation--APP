@@ -204,6 +204,12 @@ function handleServiceClick(name: string, index: number) {
     })
   }
 }
+
+useMqtt({
+  test: (payload: any) => {
+    console.log('test', payload)
+  },
+})
 </script>
 
 <style>
