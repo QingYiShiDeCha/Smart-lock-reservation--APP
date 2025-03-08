@@ -44,6 +44,7 @@
         v-for="(item, index) in menuList"
         :key="index"
         class="menu-item z-999 flex justify-between items-center p-4"
+        @click="handleMenuItemClick(item)"
       >
         <view class="flex items-center">
           <text class="text-blue-500 mr-2">{{ item.icon }}</text>
@@ -66,7 +67,12 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
 
 const userAvatar = '../../static/user.svg'
 
-const menuList = [
+interface MenuItem {
+  icon: string
+  title: string
+}
+
+const menuList: Array<MenuItem> = [
   { icon: '👤', title: '我的账户' },
   { icon: '🚢', title: '我的船舶' },
   { icon: '🔒', title: '修改密码' },
@@ -76,6 +82,13 @@ const menuList = [
   { icon: '💬', title: '使用反馈' },
   { icon: '🏢', title: '关于我们' },
 ]
+
+function handleMenuItemClick(item: MenuItem) {
+  console.log('点击了', item.title)
+  if (item.title === '我的账户') {
+    uni.navigateTo({ url: '/pages/my-account/index' })
+  }
+}
 </script>
 
 <style>
