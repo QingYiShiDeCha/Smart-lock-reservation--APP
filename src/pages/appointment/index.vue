@@ -32,11 +32,11 @@
     <view class="mt-90rpx"></view>
     <view class="bg-white p-4 flex flex-col gap-20rpx">
       <view class="mx-4">
-        <wd-button block>预约报闸</wd-button>
+        <wd-button @click="handleSubmit" block>预约报闸</wd-button>
       </view>
       <view>
         <wd-card title="船闸">
-          <wd-radio-group v-model="selectedValue" shape="dot" inline>
+          <wd-radio-group v-model="formData.selectedValue" shape="dot" inline>
             <view class="flex flex-wrap gap-10rpx">
               <wd-radio
                 class="w-1/4"
@@ -53,7 +53,7 @@
           <view class="flex items-center gap-20rpx justify-between">
             <view class="w-20%">船舶方向:</view>
             <view>
-              <wd-radio-group v-model="selectDirection" shape="dot" inline>
+              <wd-radio-group v-model="formData.selectDirection" shape="dot" inline>
                 <wd-radio value="1">上行</wd-radio>
                 <wd-radio value="2">下行</wd-radio>
               </wd-radio-group>
@@ -62,7 +62,7 @@
           <view class="flex items-center gap-20rpx justify-between">
             <view class="w-20%">船舶类型:</view>
             <view>
-              <wd-radio-group v-model="selectType" shape="dot" inline>
+              <wd-radio-group v-model="formData.selectType" shape="dot" inline>
                 <wd-radio value="1">重船</wd-radio>
                 <wd-radio value="2">吉船</wd-radio>
               </wd-radio-group>
@@ -95,11 +95,23 @@
               />
 
               <!-- 起始港/目的港（选择器） -->
-              <wd-picker label="起始港" :columns="shoplocks.map((item) => item.name)" />
-              <wd-picker label="目的港" :columns="shoplocks.map((item) => item.name)" />
+              <wd-picker
+                v-model="formData.startPort"
+                label="起始港"
+                :columns="shoplocks.map((item) => item.name)"
+              />
+              <wd-picker
+                v-model="formData.endPort"
+                label="目的港"
+                :columns="shoplocks.map((item) => item.name)"
+              />
 
               <!-- 包装方式（单选框组） -->
-              <wd-picker label="包装方式" :columns="['散装', '集装箱', '托盘']" />
+              <wd-picker
+                v-model="formData.packageType"
+                label="包装方式"
+                :columns="['散装', '集装箱', '托盘']"
+              />
 
               <!-- 实际重量（带单位的数字输入） -->
               <wd-input
@@ -133,10 +145,6 @@
 <script lang="ts" setup>
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
-const selectedValue = ref<string>('')
-const selectDirection = ref<string>('')
-const selectType = ref<string>('')
-
 const formData = reactive({
   shipDate: '',
   waybillNo: '',
@@ -145,6 +153,9 @@ const formData = reactive({
   packageType: '1',
   weight: '',
   freight: '',
+  selectedValue: '',
+  selectDirection: '',
+  selectType: '',
 })
 
 interface Shiplock {
@@ -188,7 +199,9 @@ function handleBack() {
   uni.navigateBack()
 }
 
-function handleSelect({ value }) {}
+function handleSubmit() {
+  console.log('formData', formData)
+}
 </script>
 
 <style>
