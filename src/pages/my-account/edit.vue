@@ -102,7 +102,7 @@ function handleBack() {
 }
 
 function handleSubmit() {
-  formRef.value?.validate().then(({ valid, errors }) => {
+  formRef.value?.validate().then(({ valid }) => {
     if (valid) {
       accountStore.setAccountInfo(formData.value)
       uni.showToast({
