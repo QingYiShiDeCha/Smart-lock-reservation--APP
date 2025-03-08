@@ -8,6 +8,8 @@ interface NavigateToOptions {
        "/pages/appointment/index" |
        "/pages/cell-center/index" |
        "/pages/mine/index" |
+       "/pages/my-account/edit" |
+       "/pages/my-account/index" |
        "/pages/report-info/index";
 }
 interface RedirectToOptions extends NavigateToOptions {}

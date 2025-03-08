@@ -80,6 +80,24 @@
       }
     },
     {
+      "path": "pages/my-account/edit",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "编辑账户信息",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my-account/index",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "我的账户",
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/report-info/index",
       "type": "page",
       "layout": "default",
