@@ -42,72 +42,84 @@
           <view class="flex flex-col gap-3">
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">船舶名称</text>
-              <text>{{ shipInfo.name || '-' }}</text>
+              <text class="text-28rpx">{{ shipInfo.name || '-' }}</text>
             </view>
 
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">吃水 (米)</text>
-              <text>{{ shipInfo.draft || '-' }}</text>
+              <text class="text-28rpx">{{ shipInfo.draft || '-' }}</text>
             </view>
 
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">航次号</text>
-              <text>{{ shipInfo.voyageNumber || '-' }}</text>
+              <text class="text-24rpx">{{ shipInfo.voyageNumber || '-' }}</text>
             </view>
 
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">排队号</text>
-              <text>{{ shipInfo.queueNumber || '-' }}</text>
+              <text class="text-28rpx">{{ shipInfo.queueNumber || '-' }}</text>
             </view>
 
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">前方船数</text>
-              <text>{{ shipInfo.shipsAhead || '-' }}</text>
+              <text class="text-28rpx">{{ shipInfo.shipsAhead || '-' }}</text>
             </view>
 
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">过闸位置</text>
-              <text>{{ shipInfo.lockPosition || '-' }}</text>
+              <text class="text-28rpx">{{ shipInfo.lockPosition || '-' }}</text>
             </view>
 
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">报到方式</text>
-              <text>{{ shipInfo.reportMethod || '-' }}</text>
+              <text class="text-28rpx">{{ shipInfo.reportWay || '-' }}</text>
             </view>
 
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">终端状态</text>
-              <text>{{ shipInfo.terminalStatus || '无' }}</text>
+              <text
+                class="text-28rpx"
+                :class="{
+                  'text-red': shipInfo.terminalStatus === 0,
+                  'text-green': shipInfo.terminalStatus === 1,
+                }"
+              >
+                {{
+                  shipInfo.terminalStatus === 1
+                    ? '在线 ' + formatDateTime(new Date())
+                    : '离线 ' + formatDateTime(new Date())
+                }}
+              </text>
             </view>
 
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">报闸提示</text>
-              <text>{{ shipInfo.reportTip || '-' }}</text>
+              <text class="text-28rpx">{{ shipInfo.reportTip || '-' }}</text>
             </view>
 
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">应缴金额</text>
-              <text>{{ shipInfo.amountDue || '-' }} 元</text>
+              <text class="text-28rpx">{{ shipInfo.amountDue || '-' }} 元</text>
             </view>
 
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">实缴金额</text>
-              <text>{{ shipInfo.amountPaid || '-' }} 元</text>
+              <text class="text-28rpx">{{ shipInfo.amountPaid || '-' }} 元</text>
             </view>
 
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">私人余额</text>
-              <text>{{ shipInfo.privateBalance || '-' }} 元</text>
+              <text class="text-28rpx">{{ shipInfo.privateBalance || '-' }} 元</text>
             </view>
 
             <view class="flex justify-between py-2 border-b border-gray-100">
               <text class="text-gray-500">公司余额</text>
-              <text>{{ shipInfo.companyBalance || '-' }} 元</text>
+              <text class="text-28rpx">{{ shipInfo.companyBalance || '-' }} 元</text>
             </view>
 
             <view class="flex justify-between py-2">
               <text class="text-gray-500">审核意见</text>
-              <text>{{ shipInfo.reviewComments || '-' }}</text>
+              <text class="text-28rpx">{{ shipInfo.reviewComments || '-' }}</text>
             </view>
           </view>
         </view>
@@ -246,6 +258,7 @@ import { ref } from 'vue'
 import CustomTab from '@/components/CustomTab.vue'
 import CustomTabItem from '@/components/CustomTabItem.vue'
 import { useMqtt } from '@/hooks/useMqtt'
+import { formatDateTime } from '@/utils/datetime'
 
 defineOptions({
   name: 'ReportInfo',
@@ -280,16 +293,16 @@ function renderStatusText(status: number) {
 
 // 船舶信息数据
 const shipInfo = ref({
-  name: '吃水 (米)',
-  draft: '',
-  voyageNumber: '',
+  name: '宇宙9528',
+  draft: '1',
+  voyageNumber: '2025-02-28 08:54:19 从广州上行平南港区',
   queueNumber: '-',
-  shipsAhead: '',
-  lockPosition: '',
-  reportMethod: '-',
-  terminalStatus: '无',
-  reportTip: '-',
-  amountDue: '-',
+  shipsAhead: 2,
+  lockPosition: '上行',
+  reportWay: '-',
+  terminalStatus: 1,
+  reportTip: '预约成功',
+  amountDue: '1194.99',
   amountPaid: '-',
   privateBalance: '-',
   companyBalance: '-',
