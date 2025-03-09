@@ -30,10 +30,7 @@
     />
     <!-- 占位符 -->
     <view class="mt-90rpx"></view>
-    <view class="bg-white p-4 flex flex-col gap-20rpx">
-      <view class="mx-4">
-        <wd-button @click="handleSubmit" block>预约报闸</wd-button>
-      </view>
+    <view class="bg-white mx-4 rounded-md p-4 flex flex-col gap-20rpx">
       <view>
         <wd-card title="船闸">
           <wd-radio-group v-model="formData.selectedValue" shape="dot" inline>
@@ -51,7 +48,7 @@
         </wd-card>
         <view class="flex flex-col gap-20rpx">
           <view class="flex items-center gap-20rpx justify-between">
-            <view class="w-20%">船舶方向:</view>
+            <view class="w-20% text-28rpx">船舶方向:</view>
             <view>
               <wd-radio-group v-model="formData.selectDirection" shape="dot" inline>
                 <wd-radio value="1">上行</wd-radio>
@@ -60,7 +57,7 @@
             </view>
           </view>
           <view class="flex items-center gap-20rpx justify-between">
-            <view class="w-20%">船舶类型:</view>
+            <view class="w-20% text-28rpx">船舶类型:</view>
             <view>
               <wd-radio-group v-model="formData.selectType" shape="dot" inline>
                 <wd-radio value="1">重船</wd-radio>
@@ -138,6 +135,9 @@
           </view>
         </view>
       </view>
+      <view class="mx-4">
+        <wd-button @click="handleSubmit" block>预约报闸</wd-button>
+      </view>
     </view>
   </view>
 </template>
@@ -201,6 +201,68 @@ function handleBack() {
 
 function handleSubmit() {
   console.log('formData', formData)
+
+  if (!validateForm()) return
+
+  // 显示加载状态
+  uni.showLoading({ title: '提交中...', mask: true })
+
+  // 模拟网络请求延迟
+  setTimeout(() => {
+    uni.hideLoading()
+
+    // 随机生成成功/失败结果
+    const isSuccess = Math.random() > 0.2
+
+    if (isSuccess) {
+      uni.showToast({
+        title: '预约成功',
+        icon: 'success',
+        duration: 2000,
+        success: () => {
+          // 提交成功后跳转回上一页
+          setTimeout(() => uni.navigateBack(), 1500)
+        },
+      })
+
+      // 重置表单（根据需求选择是否保留数据）
+      // Object.keys(formData).forEach(key => formData[key] = '')
+    } else {
+      uni.showModal({
+        title: '提交失败',
+        content: '网络请求异常，请稍后重试',
+        confirmText: '重试',
+        success: (res) => {
+          if (res.confirm) handleSubmit()
+        },
+      })
+    }
+  }, 1500)
+}
+
+function validateForm() {
+  const requiredFields = [
+    { field: formData.selectedValue, message: '请选择船闸' },
+    { field: formData.selectDirection, message: '请选择船舶方向' },
+    { field: formData.selectType, message: '请选择船舶类型' },
+    { field: formData.shipDate, message: '请选择装货日期' },
+    { field: formData.waybillNo, message: '请输入运单号' },
+  ]
+
+  for (const { field, message } of requiredFields) {
+    if (!field?.toString().trim()) {
+      uni.showToast({ title: message, icon: 'none' })
+      return false
+    }
+  }
+
+  // 扩展验证示例：重量必须为数字
+  if (formData.weight && isNaN(Number(formData.weight))) {
+    uni.showToast({ title: '重量必须为数字', icon: 'none' })
+    return false
+  }
+
+  return true
 }
 </script>
 
