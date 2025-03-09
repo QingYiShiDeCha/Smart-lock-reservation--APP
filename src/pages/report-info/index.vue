@@ -116,50 +116,103 @@
       <custom-tab-item title="报闸进度">
         <view class="mx-4 bg-white rounded-lg p-4">
           <wd-steps :active="currentStep" vertical class="progress-steps" dot>
-            <wd-step status="finished">
+            <wd-step>
               <template #title>
-                <view class="step-card completed">
+                <view
+                  class="step-card"
+                  :class="{ completed: progressInfo.steps[0].status === STEP_STATUS.COMPLETED }"
+                >
                   <view class="flex justify-between items-center">
                     <text class="font-medium">进入锚地</text>
-                    <text class="status-text completed">已完成</text>
+                    <text
+                      class="status-text"
+                      :class="{ completed: progressInfo.steps[0].status === STEP_STATUS.COMPLETED }"
+                    >
+                      {{ progressInfo.steps[0].statusText }}
+                    </text>
                   </view>
-                  <view class="text-sm text-gray-500 mt-1">已抛锚</view>
+                  <view class="text-sm text-gray-500 mt-1">
+                    当前船闸: {{ progressInfo.currentLock }}
+                  </view>
                 </view>
               </template>
             </wd-step>
 
             <wd-step>
               <template #title>
-                <view class="step-card active">
+                <view
+                  class="step-card"
+                  :class="{
+                    active: progressInfo.steps[1].status === STEP_STATUS.IN_PROGRESS,
+                    completed: progressInfo.steps[1].status === STEP_STATUS.COMPLETED,
+                  }"
+                >
                   <view class="flex justify-between items-center">
-                    <text class="font-medium">当前船闸</text>
-                    <text class="status-text active">进行中</text>
+                    <text class="font-medium">
+                      人工审核: {{ progressInfo.steps[1].status === 2 ? '已缴费' : '未缴费' }}
+                    </text>
+                    <text
+                      class="status-text"
+                      :class="{
+                        active: progressInfo.steps[1].status === STEP_STATUS.IN_PROGRESS,
+                        completed: progressInfo.steps[1].status === STEP_STATUS.COMPLETED,
+                      }"
+                    >
+                      {{ renderStatusText(progressInfo.steps[1].status) }}
+                    </text>
                   </view>
-                  <view class="text-sm text-gray-500 mt-1">等待进入船闸</view>
-                </view>
-              </template>
-            </wd-step>
-
-            <wd-step>
-              <template #title>
-                <view class="step-card">
                   <view class="flex justify-between items-center">
-                    <text class="font-medium">人工审核</text>
-                    <text class="status-text">未开始</text>
+                    <view class="text-sm text-gray-500 mt-1">
+                      审核人: {{ progressInfo.reviewer }}
+                    </view>
+                    <view class="text-0.8rem text-gray-500 mt-1">
+                      过闸费用: {{ progressInfo.fee }}元
+                    </view>
                   </view>
-                  <view class="text-sm text-gray-500 mt-1">等待人工审核</view>
                 </view>
               </template>
             </wd-step>
 
             <wd-step>
               <template #title>
-                <view class="step-card">
+                <view
+                  class="step-card"
+                  :class="{ active: progressInfo.steps[2].status === STEP_STATUS.IN_PROGRESS }"
+                >
                   <view class="flex justify-between items-center">
                     <text class="font-medium">调度</text>
-                    <text class="status-text">未开始</text>
+                    <text
+                      class="status-text"
+                      :class="{ active: progressInfo.steps[2].status === STEP_STATUS.IN_PROGRESS }"
+                    >
+                      {{ progressInfo.steps[2].statusText }}
+                    </text>
                   </view>
-                  <view class="text-sm text-gray-500 mt-1">等待调度安排</view>
+                  <view class="text-sm text-gray-500 mt-1">
+                    {{ progressInfo.steps[2].description }}
+                  </view>
+                </view>
+              </template>
+            </wd-step>
+
+            <wd-step>
+              <template #title>
+                <view
+                  class="step-card"
+                  :class="{ active: progressInfo.steps[3].status === STEP_STATUS.IN_PROGRESS }"
+                >
+                  <view class="flex justify-between items-center">
+                    <text class="font-medium">过闸</text>
+                    <text
+                      class="status-text"
+                      :class="{ active: progressInfo.steps[3].status === STEP_STATUS.IN_PROGRESS }"
+                    >
+                      {{ progressInfo.steps[3].statusText }}
+                    </text>
+                  </view>
+                  <view class="text-sm text-gray-500 mt-1">
+                    {{ progressInfo.steps[3].description }}
+                  </view>
                 </view>
               </template>
             </wd-step>
@@ -169,7 +222,19 @@
 
       <custom-tab-item title="预约进度">
         <view class="mx-4 bg-white rounded-lg p-4">
-          <!-- 预约进度内容待添加 -->
+          <wd-steps vertical class="progress-steps" dot>
+            <wd-step>
+              <template #title>
+                <view class="step-card">
+                  <view class="flex justify-between items-center">
+                    <text class="font-medium">预约船闸</text>
+                    <text class="status-text">2025-02-16 08:00</text>
+                  </view>
+                  <view class="text-sm text-gray-500 mt-1">桂平船闸: 上行</view>
+                </view>
+              </template>
+            </wd-step>
+          </wd-steps>
         </view>
       </custom-tab-item>
     </custom-tab>
@@ -180,6 +245,7 @@
 import { ref } from 'vue'
 import CustomTab from '@/components/CustomTab.vue'
 import CustomTabItem from '@/components/CustomTabItem.vue'
+import { useMqtt } from '@/hooks/useMqtt'
 
 defineOptions({
   name: 'ReportInfo',
@@ -193,6 +259,24 @@ const activeTab = ref(0)
 
 // 当前进度步骤
 const currentStep = ref(1)
+
+// 步骤状态枚举
+const STEP_STATUS = {
+  NOT_STARTED: 0,
+  IN_PROGRESS: 1,
+  COMPLETED: 2,
+}
+
+// 步骤状态文本映射
+const STATUS_TEXT_MAP = {
+  [STEP_STATUS.NOT_STARTED]: '未开始',
+  [STEP_STATUS.IN_PROGRESS]: '进行中',
+  [STEP_STATUS.COMPLETED]: '已完成',
+}
+
+function renderStatusText(status: number) {
+  return STATUS_TEXT_MAP[status]
+}
 
 // 船舶信息数据
 const shipInfo = ref({
@@ -210,6 +294,43 @@ const shipInfo = ref({
   privateBalance: '-',
   companyBalance: '-',
   reviewComments: '-',
+})
+
+// 报闸进度信息
+const progressInfo = ref({
+  currentLock: '桂平',
+  reviewer: 'XXX',
+  fee: '1199.40',
+  isPaid: false,
+  steps: [
+    {
+      status: STEP_STATUS.COMPLETED,
+      statusText: STATUS_TEXT_MAP[STEP_STATUS.COMPLETED],
+      description: '',
+    },
+    {
+      status: STEP_STATUS.IN_PROGRESS,
+      statusText: STATUS_TEXT_MAP[STEP_STATUS.IN_PROGRESS],
+      description: '',
+    },
+    {
+      status: STEP_STATUS.NOT_STARTED,
+      statusText: STATUS_TEXT_MAP[STEP_STATUS.NOT_STARTED],
+      description: '等待人工审核',
+    },
+    {
+      status: STEP_STATUS.NOT_STARTED,
+      statusText: STATUS_TEXT_MAP[STEP_STATUS.NOT_STARTED],
+      description: '等待调度安排',
+    },
+  ],
+})
+
+useMqtt({
+  test: (payload: any) => {
+    console.log('test', payload)
+    progressInfo.value.steps[1].status = payload.status
+  },
 })
 
 // 返回上一页

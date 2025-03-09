@@ -140,7 +140,6 @@ defineOptions({
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
-console.log(safeAreaInsets)
 const currentSwiperIndex = ref(0)
 
 // 通知数据
@@ -190,10 +189,6 @@ const lockInfo = ref([
 ])
 
 function handleServiceClick(name: string, index: number) {
-  uni.showToast({
-    title: `点击了${name}`,
-    icon: 'none',
-  })
   if (index === 0) {
     uni.navigateTo({
       url: '/pages/appointment/index',
@@ -208,6 +203,8 @@ function handleServiceClick(name: string, index: number) {
 useMqtt({
   test: (payload: any) => {
     console.log('test', payload)
+    lockInfo.value[0].directions[0].waiting = payload.waiting
+    lockInfo.value[0].directions[0].reported = payload.reported
   },
 })
 </script>

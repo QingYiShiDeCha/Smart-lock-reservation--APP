@@ -1,8 +1,9 @@
+import { MqttClient } from 'mqtt/*'
 import mqtt from 'mqtt'
 
 class MQTTServer {
   public url: string
-  public mqttClient: any
+  public mqttClient: MqttClient
   public clientId: string
   public options: any
 
@@ -81,9 +82,9 @@ class MQTTServer {
     })
   }
 
-  publish(topic, payload: object | Record<string, any>, qos = 0) {
+  publish(topic: string, payload: Record<string, any>, qos = 0) {
     if (this.isConnected()) {
-      this.mqttClient.publish(topic, JSON.stringify(payload), qos)
+      this.mqttClient.publish(topic, JSON.stringify(payload))
     } else if (this.reconnectTimer) {
       // 如果当前处于重连状态，还在调用publish
       // 将未发送出去的消息存起来，连接成功后在发送
