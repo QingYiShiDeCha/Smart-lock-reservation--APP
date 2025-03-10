@@ -293,7 +293,7 @@ function renderStatusText(status: number) {
 
 // 船舶信息数据
 const shipInfo = ref({
-  name: '宇宙9528',
+  name: '赛尔号',
   draft: '1',
   voyageNumber: '2025-02-28 08:54:19 从广州上行平南港区',
   queueNumber: '-',
@@ -375,6 +375,7 @@ function handleBack() {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
     &.completed {
+      color: #4caf50;
       border-left: 4px solid #4caf50;
       .status-text.completed {
         color: #4caf50;
@@ -382,6 +383,7 @@ function handleBack() {
     }
 
     &.active {
+      color: #2196f3;
       border-left: 4px solid #2196f3;
       .status-text.active {
         color: #2196f3;
