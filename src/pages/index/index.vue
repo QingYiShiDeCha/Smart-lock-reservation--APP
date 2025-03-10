@@ -16,7 +16,7 @@
     }"
   >
     <!-- 新增固定背景层 -->
-    <view class="fixed-bg"></view>
+    <view class="fixed-bg" />
     <!-- 顶部标题 -->
     <wd-navbar
       fixed
@@ -34,7 +34,7 @@
     >
       <swiper-item v-for="(item, index) in notices" :key="index">
         <view class="w-full h-full">
-          <image class="w-full h-full" :src="item.image" mode="aspectFit" />
+          <image class="w-full h-full" :src="item.image" :mode="'scaleToFill'" />
         </view>
       </swiper-item>
       <view class="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex gap-1.5">
@@ -143,10 +143,7 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
 const currentSwiperIndex = ref(0)
 
 // 通知数据
-const notices = ref([
-  { image: '/static/images/notice1.png' },
-  { image: '/static/images/notice2.png' },
-])
+const notices = ref([{ image: '/static/images/a1.png' }, { image: '/static/images/a2.png' }])
 
 // 常用服务数据
 const services = ref([
